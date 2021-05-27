@@ -10,14 +10,20 @@ export default function App() {
 
   const addGoalHandler = goalTitle => {
     // take the previous state and adds the new goal to the state
-    setCourseGoals(prevGoals => [...prevGoals, { key: Math.random().toString(), value: goalTitle}])
+    setCourseGoals(prevGoals => [...prevGoals, { id: Math.random().toString(), value: goalTitle}])
+  }
+
+  const removeGoalHandler = goalId => {
+    setCourseGoals(prevGoals => {
+      return prevGoals.filter((goal) => goal.id !== goalId);
+    });
   }
 
   return (
     <View style={styles.screen}>
       <GoalInput onAddGoal={addGoalHandler}/>
       <FlatList data={courseGoals} renderItem={itemData => (
-        <GoalItem title={itemData.item.value}/>
+        <GoalItem id={itemData.item.id} onDelete={removeGoalHandler} title={itemData.item.value}/>
       )}/>
     </View>
   );
